@@ -12,18 +12,25 @@ import kotlinx.android.synthetic.main.saved_rv_item.view.*
 class SelectActivityRvAdapter(private val items: ArrayList<String>, private val context: Context):
     RecyclerView.Adapter<SelectActivityRvAdapter.ViewHolder>(){
     var selected:Int? = null
+
+    // This is the ViewHolder of the RecycleView. This holder just "holds"
+    // the UI elements so we can later access them.
+    // In this way you can refer a certain UI element in a certain index position
     class ViewHolder(view: View):RecyclerView.ViewHolder(view) {
         val nameText: TextView = view.ItemActivityNameText
         val parentLL: LinearLayout = view.parentLayout
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectActivityRvAdapter.ViewHolder {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.saved_rv_item,parent,false))
     }
 
+    // Its just the size of the items
     override fun getItemCount(): Int {
         return items.size
     }
 
+    // This function is called every time something change or you scroll to more items
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item= items[position]
 

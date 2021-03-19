@@ -33,24 +33,28 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(myToolBar)
+        setSupportActionBar(myToolBar) //set Toolbar
+
         val toggle = ActionBarDrawerToggle(Activity(), mainActivityLayout, myToolBar, R.string.nav_open,R.string.close_nav)
         mainActivityLayout.addDrawerListener(toggle)
-        toggle.syncState()
+        toggle.syncState() //add toggle button for the Side Navigation
         mainNavBar.setNavigationItemSelectedListener(this)
-        rvItems.layoutManager = LinearLayoutManager(this)
+        rvItems.layoutManager = LinearLayoutManager(this) //set RecycleView layout
 
         val itemTouchHelper = ItemTouchHelper(itemTouchHelperCallback)
-        itemTouchHelper.attachToRecyclerView(rvItems)
+        itemTouchHelper.attachToRecyclerView(rvItems)// use ItemTouchHelper to th RecycleView
 
+        // Just Show the Add Dialog
         CardViewAdd.setOnClickListener {
             showAddDialog()
         }
 
+        // Just Show the Add Dialog
         addFloatButton.setOnClickListener{
             showAddDialog()
         }
 
+        // Go to The ExerciseActivity and push ItemList in the Activity
         StartButton.setOnClickListener{
             val intent = Intent(this, ExerciseActivity::class.java)
             intent.putExtra("TrainList", ItemList)
@@ -58,18 +62,21 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         }
     }
 
+    // This function shows the Add Button and hides the Start Button and the main RecycleViewer
     fun showAddButtons(){
         rvItems.visibility = View.GONE
         CardViewAdd.visibility = View.VISIBLE
         StartButton.visibility = View.GONE
     }
 
+    // This function hides the Add Button and shows the Start Button and the main RecycleViewer
     private fun hideAddButtons(){
         rvItems.visibility = View.VISIBLE
         CardViewAdd.visibility = View.GONE
         StartButton.visibility = View.VISIBLE
     }
 
+    // Basically is a OnClickListener of the Items that get clicked in the Navigation Bar
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             SaveButton -> {
@@ -85,6 +92,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         return true
     }
 
+    // Shows the Save Dialog and controls the ClickListeners of the Buttons
     private fun showSaveDialog() {
         val saveDialog = Dialog(this)
         saveDialog.setContentView(R.layout.save_dialog)
@@ -105,6 +113,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         saveDialog.show()
     }
 
+    // Shows the Select Activity Dialog and controls the ClickListeners of the Buttons
     private fun showSelectActivityDialog(){
         val selectDialog = Dialog(this)
         selectDialog.setContentView(R.layout.show_saved_dialog)
@@ -150,10 +159,12 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         selectDialog.show()
     }
 
+    // The function that controls the functionality of BackPress
     override fun onBackPressed() {
         showQuitDialog()
     }
 
+    // Shows the Quit From the App Dialog and controls the ClickListeners of the Buttons
     private fun showQuitDialog() {
         val quitDialog = Dialog(this)
         quitDialog.setContentView(R.layout.quit_app)
@@ -166,6 +177,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         quitDialog.show()
     }
 
+    // Shows the Add Activity Dialog and controls the ClickListeners of the Buttons
     private fun showAddDialog() {
         val addDialog = Dialog(this)
         addDialog.setContentView(R.layout.add_task)
@@ -197,13 +209,12 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         addDialog.show()
     }
 
+    // This object controls the drag and drop, the swipe functionality of the main RecycleView
     private val itemTouchHelperCallback = object: ItemTouchHelper.Callback() {
         override fun getMovementFlags(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder
         ): Int {
-            // Specify the directions of movement
-            val dragFlags = ItemTouchHelper.UP or ItemTouchHelper.DOWN
             return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT)
         }
 
@@ -212,15 +223,12 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            // Notify your adapter that an item is moved from x position to y position
             rvAdapter!!.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
             ItemList[viewHolder.adapterPosition] = ItemList[target.adapterPosition].also {ItemList[target.adapterPosition] =  ItemList[viewHolder.adapterPosition]}
             return true
         }
 
         override fun isLongPressDragEnabled(): Boolean {
-            // true: if you want to start dragging on long press
-            // false: if you want to handle it yourself
             return true
         }
 
@@ -230,17 +238,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             if(ItemList.size == 0){
                 showAddButtons()
             }
-        }
-
-        override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
-            super.onSelectedChanged(viewHolder, actionState)
-            // Hanlde action state changes
-        }
-
-        override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
-            super.clearView(recyclerView, viewHolder)
-            // Called by the ItemTouchHelper when the user interaction with an element is over and it also completed its animation
-            // This is a good place to send update to your backend about changes
         }
     }
 }

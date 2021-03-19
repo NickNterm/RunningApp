@@ -22,13 +22,14 @@ class ExerciseActivity : AppCompatActivity() {
     private var isPaused: Boolean = false
     private var position: Int = 0
     private var canPress: Boolean = false
+
     @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_exercise)
         trainList = intent.getParcelableArrayListExtra<TrainItem>("TrainList") as ArrayList<TrainItem>
 
-        setTimerFor(position)
+        startTimer(position)
 
         buttonsDisabled()
 
@@ -43,11 +44,13 @@ class ExerciseActivity : AppCompatActivity() {
             return@setOnLongClickListener true
         }
 
+        // Skip Activity functionality
+        // Sets timer for the next activity and resets progress bar, buttons
         SkipButton.setOnClickListener{
             if(canPress) {
                 if (position < trainList.size - 1) {
                     position++
-                    setTimerFor(position)
+                    startTimer(position)
                     TimerPausedProgressBar.visibility = View.GONE
                     TimerProgressBar.visibility = View.VISIBLE
                     TimerProgressBar.max = TimerProgressBar.max
@@ -67,6 +70,7 @@ class ExerciseActivity : AppCompatActivity() {
             }
         }
 
+        // Pauses timer and change the progress bar color by showing other progress bar
         PauseButton.setOnClickListener {
             if(canPress) {
                 if (timer != null) {
@@ -82,6 +86,7 @@ class ExerciseActivity : AppCompatActivity() {
             }
         }
 
+        // Resumes timer and change the progress bar color by showing first progress bar
         ResumeButton.setOnClickListener {
             if(canPress) {
                 if (timer != null) {
@@ -91,7 +96,7 @@ class ExerciseActivity : AppCompatActivity() {
                     TimerProgressBar.progress = TimerPausedProgressBar.progress
                     pauseSecond = TimerProgressBar.progress
                     isPaused = false
-                    setTimerFor(position, pauseSecond)
+                    startTimer(position, pauseSecond)
                     ResumeButton.visibility = View.GONE
                     PauseButton.visibility = View.VISIBLE
                 }
@@ -100,6 +105,7 @@ class ExerciseActivity : AppCompatActivity() {
         }
     }
 
+    // Enables the buttons and Disable the lock button
     private fun buttonsEnabled(){
         LockButton.setBackgroundResource(R.drawable.text_view_button_disabled)
         SkipButton.setBackgroundResource(R.drawable.text_view_ripple_button)
@@ -108,6 +114,7 @@ class ExerciseActivity : AppCompatActivity() {
         canPress = true
     }
 
+    // Disables the buttons and Enables the lock button
     private fun buttonsDisabled(){
         LockButton.setBackgroundResource(R.drawable.text_view_ripple_button)
         SkipButton.setBackgroundResource(R.drawable.text_view_button_disabled)
@@ -116,16 +123,19 @@ class ExerciseActivity : AppCompatActivity() {
         canPress = false
     }
 
+    // Make sure that when the activity ends the timer, players are stopped
     override fun onDestroy() {
         super.onDestroy()
         player!!.stop()
         timer!!.cancel()
     }
 
+    // Controls the BackPress
     override fun onBackPressed() {
         showQuitDialog()
     }
 
+    // Shows the Quit Activity Dialog and controls the ClickListeners of the buttons
     private fun showQuitDialog(){
         val quitDialog = Dialog(this)
         quitDialog.setContentView(R.layout.quit_train)
@@ -141,7 +151,16 @@ class ExerciseActivity : AppCompatActivity() {
         quitDialog.show()
     }
 
-    private fun startTimer(time: Int, progressPar: Int = 0) {
+    // The main Timer structure. time is the whole Exercise time
+    // and progressPar parameter is for staring the timer not always from the start
+    // if progressPar is negative after the timer ends it starts the next activity
+    // plus it doesn't show the progress bar progress
+    private fun startTimer(index: Int, progressPar: Int = 0) {
+        val time = trainList[index].getTime()
+        if (timer != null) {
+            timer!!.cancel()
+        }
+        DescriptionText.text = trainList[index].getDescription()
         var progress = progressPar
         TimerProgressBar.max = time
         timer = object : CountDownTimer(((time-progress) * 1000).toLong(), 1000) {
@@ -167,7 +186,7 @@ class ExerciseActivity : AppCompatActivity() {
                     if (position < trainList.size - 1) {
                         position++
                         player!!.start()
-                        setTimerFor(position)
+                        startTimer(position)
                     } else {
                         player = MediaPlayer.create(this@ExerciseActivity, R.raw.finish_workout)
                         player!!.start()
@@ -182,13 +201,5 @@ class ExerciseActivity : AppCompatActivity() {
                 }
             }
         }.start()
-    }
-
-    fun setTimerFor(index: Int, progress:Int = 0) {
-        if (timer != null) {
-            timer!!.cancel()
-        }
-        DescriptionText.text = trainList[index].getDescription()
-        startTimer(trainList[index].getTime(),progress)
     }
 }

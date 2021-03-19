@@ -12,6 +12,7 @@ class FinishActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finish)
 
+        // Just go to the first activity
         endExerciseButton.setOnClickListener{
             finish()
         }

@@ -14,30 +14,38 @@ import kotlinx.android.synthetic.main.edit_dialog.*
 import kotlinx.android.synthetic.main.rv_item.view.*
 
 class RvAdapter(private val items: ArrayList<TrainItem>, private val context: Context):RecyclerView.Adapter<RvAdapter.ViewHolder>() {
+    // This is the ViewHolder of the RecycleView. This holder just "holds"
+    // the UI elements so we can later access them.
+    // In this way you can refer a certain UI element in a certain index position
     class ViewHolder(view: View):RecyclerView.ViewHolder(view) {
         val timeText: TextView = view.ItemTimeText
         val descriptionText: TextView = view.ItemDescriptionText
         val deleteButton: ImageView = view.DeleteButton
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RvAdapter.ViewHolder {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.rv_item, parent, false))
     }
 
+    // This function is called every time something change or you scroll to more items
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item= items[position]
         holder.timeText.text = "${item.getTime()} Seconds"
         holder.descriptionText.text = item.getDescription()
         holder.deleteButton.setOnClickListener {
-            showDeleteDialog(position)
+            showEditDialog(position)
         }
     }
 
+    // Its just the size of the items
     override fun getItemCount(): Int {
         return items.size
     }
-    private fun showDeleteDialog(position: Int) {
+
+    // Shows the Edit Element Dialog and controls its Buttons
+    private fun showEditDialog(position: Int) {
         val editDialog = Dialog(context)
         editDialog.setContentView(R.layout.edit_dialog)
         editDialog.NoEditDialogButton.setOnClickListener {

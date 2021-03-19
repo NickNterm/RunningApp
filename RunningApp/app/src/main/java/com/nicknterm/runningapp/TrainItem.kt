@@ -12,6 +12,8 @@ class TrainItem(private var id: Int, private var description: String?, private v
         parcel.readInt()
     )
 
+
+    // Set-Get methods
     fun getId(): Int{
         return id
     }
@@ -36,6 +38,8 @@ class TrainItem(private var id: Int, private var description: String?, private v
         id = v
     }
 
+
+    // Function for Parcelable
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(id)
         parcel.writeString(description)
