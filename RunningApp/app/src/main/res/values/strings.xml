@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">RunningApp</string>
+    <string name="nav_open">Open Nav</string>
+    <string name="close_nav">Close Nav</string>
+    <dimen name="DialogTitleText">26sp</dimen>
+    <dimen name="DialogNormalText">18sp</dimen>
+    <dimen name="DialogOptionText">18sp</dimen>
+    <dimen name="TextViewButtonText">22sp</dimen>
+    <dimen name="OptionButtonsBottomMargin">5dp</dimen>
+    <dimen name="TitleTopMargin">10dp</dimen>
+    <dimen name="DialogWidth">300dp</dimen>
+    <dimen name="MarginBetweenOptions">10dp</dimen>
+    <string name="QuitTitle">Quit?</string>
+    <dimen name="OptionPaddingHorizontal">10dp</dimen>
+    <dimen name="OptionPaddingVertical">5dp</dimen>
+</resources>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/DialogWidth" android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:background="@color/dark"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_marginTop="@dimen/TitleTopMargin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Are You Sure?"
+        android:textStyle="bold"
+        android:textSize="@dimen/DialogTitleText"
+        android:textColor="@color/cyan"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Do you want to remove this session?"
+        android:textSize="@dimen/DialogNormalText"
+        android:textColor="@color/textColor"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:gravity="right"
+        android:layout_marginVertical="@dimen/OptionButtonsBottomMargin"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/NoDeleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:paddingVertical="@dimen/OptionPaddingVertical"
+            android:paddingHorizontal="@dimen/OptionPaddingHorizontal"
+            android:layout_marginEnd="@dimen/MarginBetweenOptions"
+            android:background="@drawable/option_button_bg_ripple"
+            android:textSize="@dimen/DialogOptionText"
+            android:textColor="@color/cyan"/>
+        <TextView
+            android:id="@+id/YesDeleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:paddingVertical="@dimen/OptionPaddingVertical"
+            android:paddingHorizontal="@dimen/OptionPaddingHorizontal"
+            android:layout_marginEnd="@dimen/MarginBetweenOptions"
+            android:background="@drawable/option_button_bg_ripple"
+            android:textSize="@dimen/DialogOptionText"
+            android:textColor="@color/cyan"/>
+
+</LinearLayout>
+</LinearLayout>
+</RelativeLayout>

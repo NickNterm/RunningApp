@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dark"
+    android:orientation="vertical"
+    tools:context=".FinishActivity">
+
+    <TextView
+        android:layout_marginTop="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Congratulations!!"
+        android:textColor="@color/textColor"
+        android:textSize="20sp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="You finish the workout"
+        android:textColor="@color/textColor"
+        android:textSize="20sp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/endExerciseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/text_view_ripple_button"
+        android:paddingHorizontal="30dp"
+        android:paddingVertical="10dp"
+        android:text="FINISH"
+        android:textColor="@color/textColor"
+        android:textSize="@dimen/TextViewButtonText"
+        android:textStyle="bold" />
+</LinearLayout>

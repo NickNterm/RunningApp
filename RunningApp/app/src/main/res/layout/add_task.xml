@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/bgSecondary"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/cyan"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textSize="@dimen/DialogTitleText"
+        android:text="Add Activity"/>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/DescriptionTextInputLayout"
+        android:paddingHorizontal="20dp"
+        android:paddingTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Description"
+        app:errorEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/DescriptionTextInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/TimeTextInputLayout"
+        android:paddingHorizontal="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Time in seconds"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/TimeTextInput"
+            android:numeric="integer"
+            android:inputType="number"
+            android:maxLength="4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <LinearLayout
+        android:layout_marginVertical="20dp"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="right"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/cancel_button_add_dialog"
+            android:paddingRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/cyan"
+            android:text="Cancel"
+            android:textSize="@dimen/DialogOptionText"/>
+        <TextView
+            android:id="@+id/add_button_add_dialog"
+            android:paddingRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/cyan"
+            android:text="Add"
+            android:textSize="@dimen/DialogOptionText"/>
+    </LinearLayout>
+</LinearLayout>

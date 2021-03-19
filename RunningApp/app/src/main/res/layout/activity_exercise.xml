@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/dark"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".ExerciseActivity">
+    <TextView
+        android:id="@+id/DescriptionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:textColor="@color/textColor"
+        android:textSize="25sp"/>
+    <FrameLayout
+        android:layout_width="300dp"
+        android:layout_margin="30dp"
+        android:layout_gravity="center"
+        android:layout_height="300dp">
+
+        <ProgressBar
+            android:id="@+id/TimerProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:indeterminate="false"
+            android:background="@drawable/time_progress_bar_background"
+            android:max="10"
+            android:progress="4"
+            android:progressDrawable="@drawable/timer_progress_bar"
+            android:rotation="-90"
+            android:rotationY="180" />
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/TimerPausedProgressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:indeterminate="false"
+            android:background="@drawable/time_progress_bar_background"
+            android:max="10"
+            android:progress="4"
+            android:progressDrawable="@drawable/timer_progress_bar_paused"
+            android:rotation="-90"
+            android:rotationY="180" />
+        <TextView
+            android:id="@+id/TimerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="0:96"
+            android:textColor="@color/textColor"
+            android:textSize="40sp" />
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:id="@+id/mainLL"
+        android:layout_width="match_parent"
+        android:layout_gravity="top"
+        android:gravity="bottom|center"
+        android:orientation="horizontal"
+        android:layout_height="match_parent">
+        <TextView
+            android:clickable="false"
+            android:id="@+id/SkipButton"
+            android:layout_width="130dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/text_view_button_disabled"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="10dp"
+            android:text="Skip"
+            android:textColor="@color/textColor"
+            android:textSize="@dimen/TextViewButtonText" />
+
+        <ImageButton
+            android:id="@+id/LockButton"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_margin="15dp"
+            android:padding="10dp"
+            android:scaleType="fitXY"
+            android:background="@drawable/text_view_ripple_button"
+            android:src="@drawable/lock"/>
+        <TextView
+            android:clickable="false"
+            android:id="@+id/PauseButton"
+            android:layout_width="130dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="Pause"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="10dp"
+            android:textSize="@dimen/TextViewButtonText"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/textColor"
+            android:background="@drawable/text_view_button_disabled"/>
+        <TextView
+            android:id="@+id/ResumeButton"
+            android:visibility="gone"
+            android:layout_width="130dp"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:text="Resume"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="10dp"
+            android:textSize="@dimen/TextViewButtonText"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/textColor"
+            android:background="@drawable/text_view_ripple_button"/>
+    </LinearLayout>
+
+</LinearLayout>
