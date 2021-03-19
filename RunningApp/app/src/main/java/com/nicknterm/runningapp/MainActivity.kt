@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.show_saved_dialog.*
 
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
-    private var ItemList: ArrayList<TrainItem> = ArrayList<TrainItem>()
+    var ItemList: ArrayList<TrainItem> = ArrayList<TrainItem>()
     private var mCurrentId: Int = 0
     private var rvAdapter: RvAdapter? = null
     private val dbHandler: DBHandler = DBHandler(this)
@@ -197,11 +197,6 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         addDialog.show()
     }
 
-    fun removeFromMainRV(adapterPosition: Int) {
-        ItemList.removeAt(adapterPosition)
-        rvAdapter!!.notifyDataSetChanged()
-    }
-
     private val itemTouchHelperCallback = object: ItemTouchHelper.Callback() {
         override fun getMovementFlags(
             recyclerView: RecyclerView,
@@ -219,6 +214,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         ): Boolean {
             // Notify your adapter that an item is moved from x position to y position
             rvAdapter!!.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+            ItemList[viewHolder.adapterPosition] = ItemList[target.adapterPosition].also {ItemList[target.adapterPosition] =  ItemList[viewHolder.adapterPosition]}
             return true
         }
 

@@ -9,10 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.add_task.*
-import kotlinx.android.synthetic.main.delete_train.*
+import kotlinx.android.synthetic.main.edit_dialog.*
 import kotlinx.android.synthetic.main.rv_item.view.*
 
 class RvAdapter(private val items: ArrayList<TrainItem>, private val context: Context):RecyclerView.Adapter<RvAdapter.ViewHolder>() {
@@ -32,28 +30,36 @@ class RvAdapter(private val items: ArrayList<TrainItem>, private val context: Co
         holder.timeText.text = "${item.getTime()} Seconds"
         holder.descriptionText.text = item.getDescription()
         holder.deleteButton.setOnClickListener {
-            showDeleteDialog(item)
+            showDeleteDialog(position)
         }
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
-    private fun showDeleteDialog(item: TrainItem) {
-        val deleteDialog = Dialog(context)
-        deleteDialog.setContentView(R.layout.delete_train)
-        deleteDialog.NoDeleteButton.setOnClickListener {
-            deleteDialog.dismiss()
+    private fun showDeleteDialog(position: Int) {
+        val editDialog = Dialog(context)
+        editDialog.setContentView(R.layout.edit_dialog)
+        editDialog.NoEditDialogButton.setOnClickListener {
+            editDialog.dismiss()
         }
-        deleteDialog.YesDeleteButton.setOnClickListener {
-            if(items.size == 1){
+        editDialog.YesEditDialogButton.setOnClickListener {
+            if(editDialog.DescriptionEditTextInput.text.toString().isNotEmpty() && editDialog.TimeEditTextInput.text.toString().isNotEmpty()) {
                 val activity: MainActivity = context as MainActivity
-                activity.showAddButtons()
+                activity.ItemList[position] = TrainItem(items[position].getId(),
+                    editDialog.DescriptionEditTextInput.text.toString(),
+                    editDialog.TimeEditTextInput.text.toString().toInt())
+                notifyDataSetChanged()
+                editDialog.dismiss()
+            }else{
+                if(editDialog.DescriptionEditTextInput.text.toString().isEmpty()){
+                    editDialog.DescriptionTextInputLayout.error = "Please Enter Description"
+                }
+                if(editDialog.TimeEditTextInput.text.toString().isEmpty()){
+                    editDialog.TimeTextEditInputLayout.error = "Please Enter Time"
+                }
             }
-            items.remove(item)
-            notifyDataSetChanged()
-            deleteDialog.dismiss()
         }
-        deleteDialog.show()
+        editDialog.show()
     }
 }
