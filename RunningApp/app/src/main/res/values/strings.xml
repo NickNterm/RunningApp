@@ -13,4 +13,5 @@
     <string name="QuitTitle">Quit?</string>
     <dimen name="OptionPaddingHorizontal">10dp</dimen>
     <dimen name="OptionPaddingVertical">5dp</dimen>
+    <string name="notificationButton">Add</string>
 </resources>

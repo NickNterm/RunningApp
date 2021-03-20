@@ -85,6 +85,11 @@
 
 
     </RelativeLayout>
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:id="@+id/SnackBarLayout"
+        android:layout_marginBottom="80dp"
+        android:layout_height="match_parent"/>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/mainNavBar"
         android:layout_width="wrap_content"

@@ -1,9 +1,13 @@
 package com.nicknterm.runningapp
 
 import android.annotation.SuppressLint
-import android.app.Dialog
+import android.app.*
+import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.media.MediaPlayer
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
@@ -23,6 +27,13 @@ class ExerciseActivity : AppCompatActivity() {
     private var position: Int = 0
     private var canPress: Boolean = false
 
+
+    lateinit var notificationManager: NotificationManager
+    lateinit var notificationChannel: NotificationChannel
+    lateinit var builder: Notification.Builder
+    private val channelId = "i.apps.notifications"
+    private val description = "Test notification"
+
     @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +42,7 @@ class ExerciseActivity : AppCompatActivity() {
 
         startTimer(position)
 
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         buttonsDisabled()
 
         player = MediaPlayer.create(this, R.raw.ring)
@@ -105,6 +117,37 @@ class ExerciseActivity : AppCompatActivity() {
         }
     }
 
+    fun refreshNotifications(message: String, Title:String, autoCancel:Boolean) {
+        val mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        // Sets an ID for the notification, so it can be updated
+        val notifyID = 1
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationChannel = NotificationChannel(channelId,
+                description,
+                NotificationManager.IMPORTANCE_HIGH)
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GREEN
+            notificationChannel.enableVibration(false)
+            notificationManager.createNotificationChannel(notificationChannel)
+
+            builder = Notification.Builder(this, channelId)
+                .setSmallIcon(R.drawable.nav_image)
+                .setContentTitle(Title)
+                .setContentText(message)
+                .setAutoCancel(true)
+        } else {
+            builder = Notification.Builder(this)
+                .setSmallIcon(R.drawable.nav_image)
+                .setContentTitle(Title)
+                .setContentText(message)
+                .setAutoCancel(true)
+        }
+        mNotificationManager.notify(
+            notifyID,
+            builder.build())
+    }
+    
+
     // Enables the buttons and Disable the lock button
     private fun buttonsEnabled(){
         LockButton.setBackgroundResource(R.drawable.text_view_button_disabled)
@@ -125,9 +168,9 @@ class ExerciseActivity : AppCompatActivity() {
 
     // Make sure that when the activity ends the timer, players are stopped
     override fun onDestroy() {
-        super.onDestroy()
         player!!.stop()
         timer!!.cancel()
+        super.onDestroy()
     }
 
     // Controls the BackPress
@@ -156,11 +199,17 @@ class ExerciseActivity : AppCompatActivity() {
     // if progressPar is negative after the timer ends it starts the next activity
     // plus it doesn't show the progress bar progress
     private fun startTimer(index: Int, progressPar: Int = 0) {
-        val time = trainList[index].getTime()
+        val time:Int
+        if(progressPar>= 0) {
+            time = trainList[index].getTime()
+            DescriptionText.text = trainList[index].getDescription()
+        }else{
+            time = index
+        }
         if (timer != null) {
             timer!!.cancel()
         }
-        DescriptionText.text = trainList[index].getDescription()
+
         var progress = progressPar
         TimerProgressBar.max = time
         timer = object : CountDownTimer(((time-progress) * 1000).toLong(), 1000) {
@@ -172,8 +221,10 @@ class ExerciseActivity : AppCompatActivity() {
                         TimerProgressBar.progress = progress
                         if ((time - progress) % 60 < 10) {
                             TimerText.text = "${(time - progress) / 60}:0${(time - progress) % 60}"
+                            refreshNotifications("${(time - progress) / 60}:0${(time - progress) % 60}", "Activity Started", true)
                         } else {
                             TimerText.text = "${(time - progress) / 60}:${(time - progress) % 60}"
+                            refreshNotifications("${(time - progress) / 60}:${(time - progress) % 60}", "Activity Started", true)
                         }
                     } else {
                         cancel()
@@ -188,10 +239,10 @@ class ExerciseActivity : AppCompatActivity() {
                         player!!.start()
                         startTimer(position)
                     } else {
-                        player = MediaPlayer.create(this@ExerciseActivity, R.raw.finish_workout)
+                        player = MediaPlayer.create(this@ExerciseActivity, R.raw.final_sound)
                         player!!.start()
-                        startTimer(5, -1)
-
+                        startTimer(2, -1)
+                        refreshNotifications("Congratulations!!!", "Workout Finished", false)
                     }
                 }else{
                     val intent = Intent(this@ExerciseActivity, FinishActivity::class.java)

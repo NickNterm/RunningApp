@@ -53,10 +53,11 @@
             <ImageView
                 android:id="@+id/DeleteButton"
                 android:onClick="deleteItem"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="15dp"
                 android:gravity="right"
-                app:srcCompat="@android:drawable/ic_menu_delete" />
+                app:srcCompat="@drawable/edit_image" />
         </LinearLayout>
     </LinearLayout>
 

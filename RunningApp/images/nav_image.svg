@@ -53,20 +53,20 @@
      id="layer1">
     <path
        style="fill:none;stroke:#18b192;stroke-width:8;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 71.45899,118.5322 c 0,0 13.091,-23.268252 41.62118,-0.38692 28.53357,19.7599 44.97758,-4.09393 44.97758,-4.09393"
+       d="m 70.463249,122.30549 c 0,0 10.990913,-24.330759 41.425381,-4.05097 30.16294,17.17019 44.44226,-8.03917 44.44226,-8.03917"
        id="path2892"
        sodipodi:nodetypes="ccc"
        inkscape:export-xdpi="96.5"
        inkscape:export-ydpi="96.5" />
     <path
        style="fill:none;stroke:#18b192;stroke-width:8;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 69.38699,171.99996 c 0,0 39.98472,1.26616 43.69318,-53.85468"
+       d="m 73.108171,175.74797 c 0,0 39.940859,-2.26019 38.780459,-57.49345"
        id="path2894"
        inkscape:export-xdpi="96.5"
        inkscape:export-ydpi="96.5" />
     <path
        style="fill:none;stroke:#18b192;stroke-width:8;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 106.02506,150.02065 c 27.23501,1.19518 25.2612,30.36851 25.2612,30.36851"
+       d="m 107.66817,150.62737 c 27.23445,-1.20803 27.83758,28.02577 27.83758,28.02577"
        id="path2896"
        sodipodi:nodetypes="cc"
        inkscape:export-xdpi="96.5"
@@ -74,16 +74,10 @@
     <circle
        style="fill:none;fill-opacity:1;stroke:#18b192;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke markers fill"
        id="path2898"
-       cx="107.74584"
-       cy="114.08979"
+       cx="94.321945"
+       cy="121.51291"
        r="12.07022"
-       transform="rotate(-9.3418837)"
-       inkscape:export-xdpi="96.5"
-       inkscape:export-ydpi="96.5" />
-    <path
-       style="fill:none;stroke:#18b192;stroke-width:7;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:5.80000019;stroke-dasharray:21,21;stroke-dashoffset:0;stroke-opacity:1"
-       d="M 9.5204934,198.23744 H 202.19802"
-       id="path1476"
+       transform="rotate(-14.394431)"
        inkscape:export-xdpi="96.5"
        inkscape:export-ydpi="96.5" />
   </g>

@@ -1,14 +1,11 @@
 package com.nicknterm.runningapp
 
-import android.app.Activity
-import android.app.Dialog
+import android.app.*
+import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -16,16 +13,17 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.snackbar.Snackbar
+import com.nicknterm.runningapp.R.id.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.add_task.*
-import kotlinx.android.synthetic.main.add_task.DescriptionTextInput
 import kotlinx.android.synthetic.main.quit_app.*
-import com.nicknterm.runningapp.R.id.*
 import kotlinx.android.synthetic.main.save_dialog.*
 import kotlinx.android.synthetic.main.show_saved_dialog.*
 
 
 class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
+
     var ItemList: ArrayList<TrainItem> = ArrayList<TrainItem>()
     private var mCurrentId: Int = 0
     private var rvAdapter: RvAdapter? = null
@@ -35,7 +33,11 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         setContentView(R.layout.activity_main)
         setSupportActionBar(myToolBar) //set Toolbar
 
-        val toggle = ActionBarDrawerToggle(Activity(), mainActivityLayout, myToolBar, R.string.nav_open,R.string.close_nav)
+        val toggle = ActionBarDrawerToggle(Activity(),
+            mainActivityLayout,
+            myToolBar,
+            R.string.nav_open,
+            R.string.close_nav)
         mainActivityLayout.addDrawerListener(toggle)
         toggle.syncState() //add toggle button for the Side Navigation
         mainNavBar.setNavigationItemSelectedListener(this)
@@ -83,7 +85,12 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                 if (ItemList.size > 0) {
                     showSaveDialog()
                 } else {
-                    Toast.makeText(this, "Add a task first", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(SnackBarLayout,
+                        "Cannot save and Empty activity",
+                        Snackbar.LENGTH_LONG)
+                        .setTextColor(resources.getColor((R.color.textColor)))
+                        .setBackgroundTint(resources.getColor(R.color.bgSecondary))
+                        .show()
                 }
             }
             LoadButton -> showSelectActivityDialog()
@@ -100,7 +107,10 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             if(saveDialog.NameInputSave.text.toString().isNotEmpty()) {
                 for (item in ItemList){
                     dbHandler.addTrainTimer(item, saveDialog.NameInputSave.text.toString())
-                    Toast.makeText(this,"Saved Successfully",Toast.LENGTH_SHORT).show()
+                    Snackbar.make(SnackBarLayout, "Saved Successfully", Snackbar.LENGTH_LONG)
+                        .setTextColor(resources.getColor((R.color.textColor)))
+                        .setBackgroundTint(resources.getColor(R.color.bgSecondary))
+                        .show()
                 }
                 saveDialog.dismiss()
             }else{
@@ -186,7 +196,9 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         }
         addDialog.add_button_add_dialog.setOnClickListener{
             if(addDialog.DescriptionTextInput.text.toString().isNotEmpty() && addDialog.TimeTextInput.text.toString().isNotEmpty()) {
-                val newItem = TrainItem(mCurrentId, addDialog.DescriptionTextInput.text.toString(), addDialog.TimeTextInput.text.toString().toInt())
+                val newItem = TrainItem(mCurrentId,
+                    addDialog.DescriptionTextInput.text.toString(),
+                    addDialog.TimeTextInput.text.toString().toInt())
                 mCurrentId++
                 ItemList.add(newItem)
                 if (rvAdapter != null) {
@@ -213,15 +225,16 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     private val itemTouchHelperCallback = object: ItemTouchHelper.Callback() {
         override fun getMovementFlags(
             recyclerView: RecyclerView,
-            viewHolder: RecyclerView.ViewHolder
+            viewHolder: RecyclerView.ViewHolder,
         ): Int {
-            return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT)
+            return makeMovementFlags(ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+                ItemTouchHelper.RIGHT)
         }
 
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
-            target: RecyclerView.ViewHolder
+            target: RecyclerView.ViewHolder,
         ): Boolean {
             rvAdapter!!.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
             ItemList[viewHolder.adapterPosition] = ItemList[target.adapterPosition].also {ItemList[target.adapterPosition] =  ItemList[viewHolder.adapterPosition]}
@@ -233,8 +246,20 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            ItemList.removeAt(viewHolder.adapterPosition)
+            val removedItem = ItemList[viewHolder.adapterPosition]
+            val position = viewHolder.adapterPosition
+            ItemList.removeAt(position)
             rvAdapter!!.notifyDataSetChanged()
+            Snackbar.make(SnackBarLayout, "Item Deleted", Snackbar.LENGTH_LONG)
+                .setAction("Undo") {
+                    ItemList.add(position, removedItem)
+                    rvAdapter!!.notifyDataSetChanged()
+                    hideAddButtons()
+                }
+                .setTextColor(resources.getColor((R.color.textColor)))
+                .setBackgroundTint(resources.getColor(R.color.bgSecondary))
+                .setActionTextColor(resources.getColor(R.color.cyan))
+                .show()
             if(ItemList.size == 0){
                 showAddButtons()
             }
