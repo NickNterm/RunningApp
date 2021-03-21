@@ -21,6 +21,7 @@ import kotlinx.android.synthetic.main.interval_training_save_dialog.*
 import kotlinx.android.synthetic.main.interval_training_load_session_dialog.*
 
 
+@Suppress("DEPRECATION")
 class IntervalTrainingMainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
 
     var itemList: ArrayList<IntervalTrainingItem> = ArrayList<IntervalTrainingItem>()
