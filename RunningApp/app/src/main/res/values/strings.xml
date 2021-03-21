@@ -15,5 +15,6 @@
     <dimen name="MarginBetweenOptions">10dp</dimen>
     <dimen name="OptionPaddingHorizontal">10dp</dimen>
     <dimen name="OptionPaddingVertical">5dp</dimen>
+    <dimen name="MarginHorizontalDialog">17dp</dimen>
     <dimen name="RecycleViewItemCornerRadius">10dp</dimen>
 </resources>

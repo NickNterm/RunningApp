@@ -15,8 +15,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.nicknterm.runningapp.R.id.*
 import kotlinx.android.synthetic.main.interval_training_main_activity.*
-import kotlinx.android.synthetic.main.interval_training_add_session.*
-import kotlinx.android.synthetic.main.quit_app_dialog.*
+import kotlinx.android.synthetic.main.interval_training_add_session_dialog.*
 import kotlinx.android.synthetic.main.interval_training_save_dialog.*
 import kotlinx.android.synthetic.main.interval_training_load_session_dialog.*
 
@@ -30,7 +29,6 @@ class IntervalTrainingMainActivity : AppCompatActivity(),NavigationView.OnNaviga
     private val dbHandler: DBHandler = DBHandler(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setTheme(R.style.MyAppTheme)
         setContentView(R.layout.interval_training_main_activity)
         setSupportActionBar(myToolBar) //set Toolbar
 
@@ -170,28 +168,10 @@ class IntervalTrainingMainActivity : AppCompatActivity(),NavigationView.OnNaviga
         selectDialog.show()
     }
 
-    // The function that controls the functionality of BackPress
-    override fun onBackPressed() {
-        showQuitDialog()
-    }
-
-    // Shows the Quit From the App Dialog and controls the ClickListeners of the Buttons
-    private fun showQuitDialog() {
-        val quitDialog = Dialog(this)
-        quitDialog.setContentView(R.layout.quit_app_dialog)
-        quitDialog.YesQuitAppButton.setOnClickListener{
-            finish()
-        }
-        quitDialog.NoQuitAppButton.setOnClickListener {
-            quitDialog.dismiss()
-        }
-        quitDialog.show()
-    }
-
     // Shows the Add Activity Dialog and controls the ClickListeners of the Buttons
     private fun showAddDialog() {
         val addDialog = Dialog(this)
-        addDialog.setContentView(R.layout.interval_training_add_session)
+        addDialog.setContentView(R.layout.interval_training_add_session_dialog)
         addDialog.cancel_button_add_dialog.setOnClickListener{
             addDialog.dismiss()
         }
@@ -257,7 +237,7 @@ class IntervalTrainingMainActivity : AppCompatActivity(),NavigationView.OnNaviga
                     intervalTrainingMainRecycleViewAdapter!!.notifyDataSetChanged()
                     hideAddButtons()
                 }
-                .setTextColor(resources.getColor((R.color.textColor)))
+                .setTextColor(resources.getColor(R.color.textColor))
                 .setBackgroundTint(resources.getColor(R.color.bgSecondary))
                 .setActionTextColor(resources.getColor(R.color.cyan))
                 .show()

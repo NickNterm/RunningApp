@@ -6,19 +6,18 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
+        android:layout_marginBottom="5dp"
         android:layout_marginTop="@dimen/TitleTopMargin"
-        android:layout_gravity="center"
-        android:textColor="@color/cyan"
+        android:layout_marginStart="@dimen/MarginHorizontalDialog"
+        android:textColor="@color/textColor"
         android:textSize="@dimen/DialogTitleText"
         android:text="@string/QuitTitle"/>
     <TextView
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingHorizontal="20dp"
-        android:textColor="@color/textColor"
+        android:layout_marginHorizontal="@dimen/MarginHorizontalDialog"
+        android:layout_marginBottom="10dp"
+        android:textColor="@color/textColorGray"
         android:textSize="@dimen/DialogNormalText"
         android:text="Do you really want to quit the app?"/>
     <LinearLayout

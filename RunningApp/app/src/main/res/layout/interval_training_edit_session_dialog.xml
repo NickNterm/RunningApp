@@ -8,9 +8,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/cyan"
+        android:textColor="@color/textColor"
         android:textSize="@dimen/DialogTitleText"
-        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/MarginHorizontalDialog"
         android:layout_marginTop="@dimen/TitleTopMargin"
         android:text="Edit"/>
 
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/OptionPaddingHorizontal"
             android:paddingVertical="@dimen/OptionPaddingVertical"
-            android:text="No"
+            android:text="Cancel"
             android:layout_marginEnd="@dimen/MarginBetweenOptions"
             android:textSize="@dimen/DialogOptionText"
             android:textColor="@color/cyan"
@@ -70,7 +70,7 @@
             android:paddingHorizontal="@dimen/OptionPaddingHorizontal"
             android:paddingVertical="@dimen/OptionPaddingVertical"
             android:layout_marginEnd="@dimen/MarginBetweenOptions"
-            android:text="Yes"
+            android:text="Done"
             android:textSize="@dimen/DialogOptionText"
             android:textColor="@color/cyan"
             android:gravity="right"/>

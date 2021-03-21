@@ -8,10 +8,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/cyan"
+        android:textColor="@color/textColor"
         android:layout_marginTop="10dp"
-        android:layout_gravity="center"
-        android:textStyle="bold"
+        android:layout_marginHorizontal="@dimen/MarginHorizontalDialog"
         android:textSize="@dimen/DialogTitleText"
         android:text="Add Activity"/>
     <com.google.android.material.textfield.TextInputLayout

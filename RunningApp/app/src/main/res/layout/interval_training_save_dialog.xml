@@ -10,10 +10,9 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/DialogTitleText"
         android:text="Save Training"
-        android:textStyle="bold"
+        android:layout_marginHorizontal="@dimen/MarginHorizontalDialog"
         android:layout_marginTop="@dimen/TitleTopMargin"
-        android:textColor="@color/cyan"
-        android:gravity="center"/>
+        android:textColor="@color/textColor"/>
     <com.google.android.material.textfield.TextInputLayout
         android:paddingHorizontal="20dp"
         android:paddingTop="10dp"

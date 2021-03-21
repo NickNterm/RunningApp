@@ -9,8 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.interval_training_add_session.*
-import kotlinx.android.synthetic.main.interval_training_edit_session.*
+import kotlinx.android.synthetic.main.interval_training_add_session_dialog.*
+import kotlinx.android.synthetic.main.interval_training_edit_session_dialog.*
 import kotlinx.android.synthetic.main.internal_training_main_recycle_view_item.view.*
 
 class IntervalTrainingMainRecycleViewAdapter(private val items: ArrayList<IntervalTrainingItem>, private val context: Context):RecyclerView.Adapter<IntervalTrainingMainRecycleViewAdapter.ViewHolder>() {
@@ -47,7 +47,7 @@ class IntervalTrainingMainRecycleViewAdapter(private val items: ArrayList<Interv
     // Shows the Edit Element Dialog and controls its Buttons
     private fun showEditDialog(position: Int) {
         val editDialog = Dialog(context)
-        editDialog.setContentView(R.layout.interval_training_edit_session)
+        editDialog.setContentView(R.layout.interval_training_edit_session_dialog)
         editDialog.NoEditDialogButton.setOnClickListener {
             editDialog.dismiss()
         }

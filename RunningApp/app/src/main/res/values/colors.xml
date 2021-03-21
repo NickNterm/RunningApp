@@ -8,8 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="noBackgroundRipple">#858585</color>
     <color name="textColor">#FFFFFF</color>
     <color name="textColorSecondary">#205B51</color>
+    <color name="textColorGray">#B5B5B5</color>
     <color name="bgSecondary">#1B1E22</color>
     <color name="dark">#24282E</color>
     <color name="cyan">#18B192</color>
