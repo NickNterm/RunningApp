@@ -42,7 +42,7 @@
             android:paddingHorizontal="@dimen/OptionPaddingHorizontal"
             android:textColor="@color/cyan"
             android:layout_marginEnd="@dimen/MarginBetweenOptions"
-            android:background="@drawable/option_button_bg_ripple"
+            android:background="@drawable/dialog_text_view_button_background_ripple"
             android:textSize="@dimen/DialogOptionText"
             android:text="Cancel"/>
         <TextView
@@ -52,7 +52,7 @@
             android:textColor="@color/cyan"
             android:paddingVertical="@dimen/OptionPaddingVertical"
             android:paddingHorizontal="@dimen/OptionPaddingHorizontal"
-            android:background="@drawable/option_button_bg_ripple"
+            android:background="@drawable/dialog_text_view_button_background_ripple"
             android:layout_marginEnd="@dimen/MarginBetweenOptions"
             android:textSize="@dimen/DialogOptionText"
             android:text="Save"/>

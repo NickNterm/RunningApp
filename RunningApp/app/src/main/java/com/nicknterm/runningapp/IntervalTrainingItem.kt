@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 
-class TrainItem(private var id: Int, private var description: String?, private var time: Int):
+class IntervalTrainingItem(private var id: Int, private var description: String?, private var time: Int):
     Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -50,12 +50,12 @@ class TrainItem(private var id: Int, private var description: String?, private v
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<TrainItem> {
-        override fun createFromParcel(parcel: Parcel): TrainItem {
-            return TrainItem(parcel)
+    companion object CREATOR : Parcelable.Creator<IntervalTrainingItem> {
+        override fun createFromParcel(parcel: Parcel): IntervalTrainingItem {
+            return IntervalTrainingItem(parcel)
         }
 
-        override fun newArray(size: Int): Array<TrainItem?> {
+        override fun newArray(size: Int): Array<IntervalTrainingItem?> {
             return arrayOfNulls(size)
         }
     }

@@ -2,7 +2,7 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    app:cardCornerRadius="10dp"
+    app:cardCornerRadius="@dimen/RecycleViewItemCornerRadius"
     android:layout_marginHorizontal="10dp"
     android:layout_marginVertical="5dp"
     android:layout_height="wrap_content"

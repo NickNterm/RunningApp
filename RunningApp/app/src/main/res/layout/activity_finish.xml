@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:background="@drawable/text_view_ripple_button"
+        android:background="@drawable/text_view_button_background_ripple"
         android:paddingHorizontal="30dp"
         android:paddingVertical="10dp"
         android:text="FINISH"

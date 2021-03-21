@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.saved_rv_item.view.*
+import kotlinx.android.synthetic.main.interval_training_load_recycle_view_item.view.*
 
-class SelectActivityRvAdapter(private val items: ArrayList<String>, private val context: Context):
-    RecyclerView.Adapter<SelectActivityRvAdapter.ViewHolder>(){
+class IntervalTrainingLoadRecycleViewAdapter(private val items: ArrayList<String>, private val context: Context):
+    RecyclerView.Adapter<IntervalTrainingLoadRecycleViewAdapter.ViewHolder>(){
     var selected:Int? = null
 
     // This is the ViewHolder of the RecycleView. This holder just "holds"
@@ -22,7 +22,7 @@ class SelectActivityRvAdapter(private val items: ArrayList<String>, private val 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.saved_rv_item,parent,false))
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.interval_training_load_recycle_view_item,parent,false))
     }
 
     // Its just the size of the items
@@ -40,7 +40,7 @@ class SelectActivityRvAdapter(private val items: ArrayList<String>, private val 
         }
         holder.parentLL.setOnClickListener {
             selected = position
-            holder.parentLL.setBackgroundResource(R.drawable.rv_item_selected)
+            holder.parentLL.setBackgroundResource(R.drawable.recycle_view_item_selected)
             notifyDataSetChanged()
         }
     }

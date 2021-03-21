@@ -7,7 +7,7 @@
     android:background="@color/dark"
     android:id="@+id/mainActivityLayout"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".IntervalTrainingMainActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_margin="20dp"
-        android:background="@drawable/text_view_ripple_button"
+        android:background="@drawable/text_view_button_background_ripple"
         android:paddingHorizontal="50dp"
         android:paddingVertical="10dp"
         android:text="START"
@@ -97,6 +97,6 @@
         android:layout_gravity="start"
         android:background="@color/dark"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_bar_header"
+        app:headerLayout="@layout/interval_training_navigation_bar_header"
         app:menu="@menu/menu_nav_bar"/>
 </androidx.drawerlayout.widget.DrawerLayout>

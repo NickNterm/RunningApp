@@ -9,15 +9,7 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.RunningApp">
-        <activity android:name=".FinishActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/MyAppTheme"/>
-        <activity
-            android:name=".ExerciseActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/MyAppTheme"/>
-        <activity
-            android:name=".MainActivity"
+        <activity android:name=".MainMenu"
             android:screenOrientation="portrait"
             android:theme="@style/MyAppTheme">
             <intent-filter>
@@ -26,6 +18,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".FinishActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyAppTheme" />
+        <activity
+            android:name=".IntervalTrainingExerciseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyAppTheme" />
+        <activity
+            android:name=".IntervalTrainingMainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/splashScreen"/>
     </application>
 
 </manifest>

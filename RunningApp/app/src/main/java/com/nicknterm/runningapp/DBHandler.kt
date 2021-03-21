@@ -41,7 +41,7 @@ class DBHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,D
 
     // This function saves a train record into the database
     // It returns a Long. I don't even know what this is sooo
-    fun addTrainTimer(item: TrainItem, name: String):Long{
+    fun saveIntervalTrainingItem(item: IntervalTrainingItem, name: String):Long{
         val db = this.writableDatabase
 
         val contentValues = ContentValues()
@@ -58,7 +58,7 @@ class DBHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,D
     // This function reads only the names of the saved activities
     // It returns a ArrayList of Strings with the names
     @SuppressLint("Recycle")
-    fun readActivityNames():ArrayList<String>{
+    fun intervalTrainingSessionNames():ArrayList<String>{
         val nameList: ArrayList<String> = ArrayList<String>()
 
         val selectQuery = "SELECT $KEY_TRAINING_NAME FROM $TABLE_NAME"
@@ -88,8 +88,8 @@ class DBHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,D
     // Finally this function reads the Sessions by the name of a certain activity
     // It returns a list of TrainItems in order to get shown in the main RecycleView
     @SuppressLint("Recycle")
-    fun readItems(trainName: String):ArrayList<TrainItem>{
-        val trainItemList: ArrayList<TrainItem> = ArrayList<TrainItem>()
+    fun intervalTrainingItemsInSession(trainName: String):ArrayList<IntervalTrainingItem>{
+        val intervalTrainingItemList: ArrayList<IntervalTrainingItem> = ArrayList<IntervalTrainingItem>()
 
         val selectQuery = "SELECT * FROM $TABLE_NAME WHERE $KEY_TRAINING_NAME = '$trainName'"
 
@@ -115,10 +115,10 @@ class DBHandler(context: Context): SQLiteOpenHelper(context,DATABASE_NAME,null,D
                 time = cursor.getInt(cursor.getColumnIndex(KEY_TIMER))
                 description = cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION))
 
-                val finalItem = TrainItem(itemId,description,time)
-                trainItemList.add(finalItem)
+                val finalItem = IntervalTrainingItem(itemId,description,time)
+                intervalTrainingItemList.add(finalItem)
             }while(cursor.moveToNext())
         }
-        return trainItemList
+        return intervalTrainingItemList
     }
 }

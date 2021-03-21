@@ -4,24 +4,21 @@ import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.activity_exercise.*
-import kotlinx.android.synthetic.main.quit_train.*
+import kotlinx.android.synthetic.main.interval_training_exercise_activity.*
+import kotlinx.android.synthetic.main.quit_training_dialog.*
 
 
-class ExerciseActivity : AppCompatActivity() {
+class IntervalTrainingExerciseActivity : AppCompatActivity() {
     private var player: MediaPlayer? = null
     private var timer: CountDownTimer? = null
-    private var trainList: ArrayList<TrainItem> = ArrayList()
+    private var intervalTrainingList: ArrayList<IntervalTrainingItem> = ArrayList()
     private var pauseSecond: Int = 0
     private var isPaused: Boolean = false
     private var position: Int = 0
@@ -37,8 +34,8 @@ class ExerciseActivity : AppCompatActivity() {
     @SuppressLint("UseCompatLoadingForDrawables", "SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_exercise)
-        trainList = intent.getParcelableArrayListExtra<TrainItem>("TrainList") as ArrayList<TrainItem>
+        setContentView(R.layout.interval_training_exercise_activity)
+        intervalTrainingList = intent.getParcelableArrayListExtra<IntervalTrainingItem>("TrainList") as ArrayList<IntervalTrainingItem>
 
         startTimer(position)
 
@@ -60,7 +57,7 @@ class ExerciseActivity : AppCompatActivity() {
         // Sets timer for the next activity and resets progress bar, buttons
         SkipButton.setOnClickListener{
             if(canPress) {
-                if (position < trainList.size - 1) {
+                if (position < intervalTrainingList.size - 1) {
                     position++
                     startTimer(position)
                     TimerPausedProgressBar.visibility = View.GONE
@@ -73,8 +70,8 @@ class ExerciseActivity : AppCompatActivity() {
                     PauseButton.visibility = View.VISIBLE
                     isPaused = false
                 } else {
-                    val intent = Intent(this@ExerciseActivity, FinishActivity::class.java)
-                    intent.putExtra("TrainList", trainList)
+                    val intent = Intent(this@IntervalTrainingExerciseActivity, FinishActivity::class.java)
+                    intent.putExtra("TrainList", intervalTrainingList)
                     startActivity(intent)
                     finish()
                 }
@@ -117,7 +114,8 @@ class ExerciseActivity : AppCompatActivity() {
         }
     }
 
-    fun refreshNotifications(message: String, Title:String, autoCancel:Boolean) {
+    // This function creates a notification with a specific Title and Message
+    private fun refreshNotifications(message: String, Title:String) {
         val mNotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         // Sets an ID for the notification, so it can be updated
         val notifyID = 1
@@ -151,15 +149,15 @@ class ExerciseActivity : AppCompatActivity() {
     // Enables the buttons and Disable the lock button
     private fun buttonsEnabled(){
         LockButton.setBackgroundResource(R.drawable.text_view_button_disabled)
-        SkipButton.setBackgroundResource(R.drawable.text_view_ripple_button)
-        PauseButton.setBackgroundResource(R.drawable.text_view_ripple_button)
-        ResumeButton.setBackgroundResource(R.drawable.text_view_ripple_button)
+        SkipButton.setBackgroundResource(R.drawable.text_view_button_background_ripple)
+        PauseButton.setBackgroundResource(R.drawable.text_view_button_background_ripple)
+        ResumeButton.setBackgroundResource(R.drawable.text_view_button_background_ripple)
         canPress = true
     }
 
     // Disables the buttons and Enables the lock button
     private fun buttonsDisabled(){
-        LockButton.setBackgroundResource(R.drawable.text_view_ripple_button)
+        LockButton.setBackgroundResource(R.drawable.text_view_button_background_ripple)
         SkipButton.setBackgroundResource(R.drawable.text_view_button_disabled)
         PauseButton.setBackgroundResource(R.drawable.text_view_button_disabled)
         ResumeButton.setBackgroundResource(R.drawable.text_view_button_disabled)
@@ -181,7 +179,7 @@ class ExerciseActivity : AppCompatActivity() {
     // Shows the Quit Activity Dialog and controls the ClickListeners of the buttons
     private fun showQuitDialog(){
         val quitDialog = Dialog(this)
-        quitDialog.setContentView(R.layout.quit_train)
+        quitDialog.setContentView(R.layout.quit_training_dialog)
 
         quitDialog.NoQuitButton.setOnClickListener{
             quitDialog.dismiss()
@@ -201,8 +199,8 @@ class ExerciseActivity : AppCompatActivity() {
     private fun startTimer(index: Int, progressPar: Int = 0) {
         val time:Int
         if(progressPar>= 0) {
-            time = trainList[index].getTime()
-            DescriptionText.text = trainList[index].getDescription()
+            time = intervalTrainingList[index].getTime()
+            DescriptionText.text = intervalTrainingList[index].getDescription()
         }else{
             time = index
         }
@@ -221,10 +219,10 @@ class ExerciseActivity : AppCompatActivity() {
                         TimerProgressBar.progress = progress
                         if ((time - progress) % 60 < 10) {
                             TimerText.text = "${(time - progress) / 60}:0${(time - progress) % 60}"
-                            refreshNotifications("${(time - progress) / 60}:0${(time - progress) % 60}", "Activity Started", true)
+                            refreshNotifications("${(time - progress) / 60}:0${(time - progress) % 60}", "Activity Started")
                         } else {
                             TimerText.text = "${(time - progress) / 60}:${(time - progress) % 60}"
-                            refreshNotifications("${(time - progress) / 60}:${(time - progress) % 60}", "Activity Started", true)
+                            refreshNotifications("${(time - progress) / 60}:${(time - progress) % 60}", "Activity Started")
                         }
                     } else {
                         cancel()
@@ -234,19 +232,19 @@ class ExerciseActivity : AppCompatActivity() {
 
             override fun onFinish() {
                 if (progressPar >= 0) {
-                    if (position < trainList.size - 1) {
+                    if (position < intervalTrainingList.size - 1) {
                         position++
                         player!!.start()
                         startTimer(position)
                     } else {
-                        player = MediaPlayer.create(this@ExerciseActivity, R.raw.final_sound)
+                        player = MediaPlayer.create(this@IntervalTrainingExerciseActivity, R.raw.final_sound)
                         player!!.start()
                         startTimer(2, -1)
-                        refreshNotifications("Congratulations!!!", "Workout Finished", false)
+                        refreshNotifications("Congratulations!!!", "Workout Finished")
                     }
                 }else{
-                    val intent = Intent(this@ExerciseActivity, FinishActivity::class.java)
-                    intent.putExtra("TrainList", trainList)
+                    val intent = Intent(this@IntervalTrainingExerciseActivity, FinishActivity::class.java)
+                    intent.putExtra("TrainList", intervalTrainingList)
                     startActivity(intent)
                     finish()
                 }

@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.add_task.*
-import kotlinx.android.synthetic.main.edit_dialog.*
-import kotlinx.android.synthetic.main.rv_item.view.*
+import kotlinx.android.synthetic.main.interval_training_add_session.*
+import kotlinx.android.synthetic.main.interval_training_edit_session.*
+import kotlinx.android.synthetic.main.internal_training_main_recycle_view_item.view.*
 
-class RvAdapter(private val items: ArrayList<TrainItem>, private val context: Context):RecyclerView.Adapter<RvAdapter.ViewHolder>() {
+class IntervalTrainingMainRecycleViewAdapter(private val items: ArrayList<IntervalTrainingItem>, private val context: Context):RecyclerView.Adapter<IntervalTrainingMainRecycleViewAdapter.ViewHolder>() {
     // This is the ViewHolder of the RecycleView. This holder just "holds"
     // the UI elements so we can later access them.
     // In this way you can refer a certain UI element in a certain index position
@@ -25,7 +25,7 @@ class RvAdapter(private val items: ArrayList<TrainItem>, private val context: Co
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.rv_item, parent, false))
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.internal_training_main_recycle_view_item, parent, false))
     }
 
     // This function is called every time something change or you scroll to more items
@@ -47,14 +47,14 @@ class RvAdapter(private val items: ArrayList<TrainItem>, private val context: Co
     // Shows the Edit Element Dialog and controls its Buttons
     private fun showEditDialog(position: Int) {
         val editDialog = Dialog(context)
-        editDialog.setContentView(R.layout.edit_dialog)
+        editDialog.setContentView(R.layout.interval_training_edit_session)
         editDialog.NoEditDialogButton.setOnClickListener {
             editDialog.dismiss()
         }
         editDialog.YesEditDialogButton.setOnClickListener {
             if(editDialog.DescriptionEditTextInput.text.toString().isNotEmpty() && editDialog.TimeEditTextInput.text.toString().isNotEmpty()) {
-                val activity: MainActivity = context as MainActivity
-                activity.ItemList[position] = TrainItem(items[position].getId(),
+                val activityIntervalTraining: IntervalTrainingMainActivity = context as IntervalTrainingMainActivity
+                activityIntervalTraining.itemList[position] = IntervalTrainingItem(items[position].getId(),
                     editDialog.DescriptionEditTextInput.text.toString(),
                     editDialog.TimeEditTextInput.text.toString().toInt())
                 notifyDataSetChanged()

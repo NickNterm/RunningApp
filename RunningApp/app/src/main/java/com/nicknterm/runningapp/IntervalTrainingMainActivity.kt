@@ -1,7 +1,6 @@
 package com.nicknterm.runningapp
 
 import android.app.*
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
@@ -15,22 +14,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.nicknterm.runningapp.R.id.*
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.add_task.*
-import kotlinx.android.synthetic.main.quit_app.*
-import kotlinx.android.synthetic.main.save_dialog.*
-import kotlinx.android.synthetic.main.show_saved_dialog.*
+import kotlinx.android.synthetic.main.interval_training_main_activity.*
+import kotlinx.android.synthetic.main.interval_training_add_session.*
+import kotlinx.android.synthetic.main.quit_app_dialog.*
+import kotlinx.android.synthetic.main.interval_training_save_dialog.*
+import kotlinx.android.synthetic.main.interval_training_load_session_dialog.*
 
 
-class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
+class IntervalTrainingMainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelectedListener {
 
-    var ItemList: ArrayList<TrainItem> = ArrayList<TrainItem>()
+    var itemList: ArrayList<IntervalTrainingItem> = ArrayList<IntervalTrainingItem>()
     private var mCurrentId: Int = 0
-    private var rvAdapter: RvAdapter? = null
+    private var intervalTrainingMainRecycleViewAdapter: IntervalTrainingMainRecycleViewAdapter? = null
     private val dbHandler: DBHandler = DBHandler(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setTheme(R.style.MyAppTheme)
+        setContentView(R.layout.interval_training_main_activity)
         setSupportActionBar(myToolBar) //set Toolbar
 
         val toggle = ActionBarDrawerToggle(Activity(),
@@ -58,8 +58,8 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
 
         // Go to The ExerciseActivity and push ItemList in the Activity
         StartButton.setOnClickListener{
-            val intent = Intent(this, ExerciseActivity::class.java)
-            intent.putExtra("TrainList", ItemList)
+            val intent = Intent(this, IntervalTrainingExerciseActivity::class.java)
+            intent.putExtra("TrainList", itemList)
             startActivity(intent)
         }
     }
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             SaveButton -> {
-                if (ItemList.size > 0) {
+                if (itemList.size > 0) {
                     showSaveDialog()
                 } else {
                     Snackbar.make(SnackBarLayout,
@@ -102,11 +102,11 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     // Shows the Save Dialog and controls the ClickListeners of the Buttons
     private fun showSaveDialog() {
         val saveDialog = Dialog(this)
-        saveDialog.setContentView(R.layout.save_dialog)
+        saveDialog.setContentView(R.layout.interval_training_save_dialog)
         saveDialog.DialogSaveButton.setOnClickListener{
             if(saveDialog.NameInputSave.text.toString().isNotEmpty()) {
-                for (item in ItemList){
-                    dbHandler.addTrainTimer(item, saveDialog.NameInputSave.text.toString())
+                for (item in itemList){
+                    dbHandler.saveIntervalTrainingItem(item, saveDialog.NameInputSave.text.toString())
                     Snackbar.make(SnackBarLayout, "Saved Successfully", Snackbar.LENGTH_LONG)
                         .setTextColor(resources.getColor((R.color.textColor)))
                         .setBackgroundTint(resources.getColor(R.color.bgSecondary))
@@ -126,10 +126,10 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     // Shows the Select Activity Dialog and controls the ClickListeners of the Buttons
     private fun showSelectActivityDialog(){
         val selectDialog = Dialog(this)
-        selectDialog.setContentView(R.layout.show_saved_dialog)
+        selectDialog.setContentView(R.layout.interval_training_load_session_dialog)
         selectDialog.SelectActivityRv.layoutManager = LinearLayoutManager(this)
-        var selectDialogAdapter: SelectActivityRvAdapter
-        val nameList = dbHandler.readActivityNames()
+        var selectDialogAdapter: IntervalTrainingLoadRecycleViewAdapter
+        val nameList = dbHandler.intervalTrainingSessionNames()
         if(nameList.isNotEmpty()) {
             val list = ArrayList<String>()
             for(item in nameList){
@@ -137,7 +137,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                    list.add(item)
                }
             }
-            selectDialogAdapter = SelectActivityRvAdapter(list, this)
+            selectDialogAdapter = IntervalTrainingLoadRecycleViewAdapter(list, this)
             selectDialog.SelectActivityRv.adapter = selectDialogAdapter
         }else{
             selectDialog.NoWorkoutText.visibility = View.VISIBLE
@@ -151,14 +151,14 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
                         list.add(item)
                     }
                 }
-                selectDialogAdapter = selectDialog.SelectActivityRv.adapter as SelectActivityRvAdapter
+                selectDialogAdapter = selectDialog.SelectActivityRv.adapter as IntervalTrainingLoadRecycleViewAdapter
                 if(selectDialogAdapter.selected!= null) {
-                    ItemList.clear()
-                    ItemList = dbHandler.readItems(list[selectDialogAdapter.selected!!])
-                    rvAdapter = RvAdapter(ItemList, this)
-                    rvItems.adapter = rvAdapter
+                    itemList.clear()
+                    itemList = dbHandler.intervalTrainingItemsInSession(list[selectDialogAdapter.selected!!])
+                    intervalTrainingMainRecycleViewAdapter = IntervalTrainingMainRecycleViewAdapter(itemList, this)
+                    rvItems.adapter = intervalTrainingMainRecycleViewAdapter
                     hideAddButtons()
-                    rvAdapter!!.notifyDataSetChanged()
+                    intervalTrainingMainRecycleViewAdapter!!.notifyDataSetChanged()
                     selectDialog.dismiss()
                 }
             }
@@ -177,7 +177,7 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     // Shows the Quit From the App Dialog and controls the ClickListeners of the Buttons
     private fun showQuitDialog() {
         val quitDialog = Dialog(this)
-        quitDialog.setContentView(R.layout.quit_app)
+        quitDialog.setContentView(R.layout.quit_app_dialog)
         quitDialog.YesQuitAppButton.setOnClickListener{
             finish()
         }
@@ -190,22 +190,22 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
     // Shows the Add Activity Dialog and controls the ClickListeners of the Buttons
     private fun showAddDialog() {
         val addDialog = Dialog(this)
-        addDialog.setContentView(R.layout.add_task)
+        addDialog.setContentView(R.layout.interval_training_add_session)
         addDialog.cancel_button_add_dialog.setOnClickListener{
             addDialog.dismiss()
         }
         addDialog.add_button_add_dialog.setOnClickListener{
             if(addDialog.DescriptionTextInput.text.toString().isNotEmpty() && addDialog.TimeTextInput.text.toString().isNotEmpty()) {
-                val newItem = TrainItem(mCurrentId,
+                val newItem = IntervalTrainingItem(mCurrentId,
                     addDialog.DescriptionTextInput.text.toString(),
                     addDialog.TimeTextInput.text.toString().toInt())
                 mCurrentId++
-                ItemList.add(newItem)
-                if (rvAdapter != null) {
-                    rvAdapter!!.notifyDataSetChanged()
+                itemList.add(newItem)
+                if (intervalTrainingMainRecycleViewAdapter != null) {
+                    intervalTrainingMainRecycleViewAdapter!!.notifyDataSetChanged()
                 } else {
-                    rvAdapter = RvAdapter(ItemList, this)
-                    rvItems.adapter = rvAdapter
+                    intervalTrainingMainRecycleViewAdapter = IntervalTrainingMainRecycleViewAdapter(itemList, this)
+                    rvItems.adapter = intervalTrainingMainRecycleViewAdapter
                 }
                 hideAddButtons()
                 addDialog.dismiss()
@@ -236,8 +236,8 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder,
         ): Boolean {
-            rvAdapter!!.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
-            ItemList[viewHolder.adapterPosition] = ItemList[target.adapterPosition].also {ItemList[target.adapterPosition] =  ItemList[viewHolder.adapterPosition]}
+            intervalTrainingMainRecycleViewAdapter!!.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+            itemList[viewHolder.adapterPosition] = itemList[target.adapterPosition].also {itemList[target.adapterPosition] =  itemList[viewHolder.adapterPosition]}
             return true
         }
 
@@ -246,21 +246,21 @@ class MainActivity : AppCompatActivity(),NavigationView.OnNavigationItemSelected
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            val removedItem = ItemList[viewHolder.adapterPosition]
+            val removedItem = itemList[viewHolder.adapterPosition]
             val position = viewHolder.adapterPosition
-            ItemList.removeAt(position)
-            rvAdapter!!.notifyDataSetChanged()
+            itemList.removeAt(position)
+            intervalTrainingMainRecycleViewAdapter!!.notifyDataSetChanged()
             Snackbar.make(SnackBarLayout, "Item Deleted", Snackbar.LENGTH_LONG)
                 .setAction("Undo") {
-                    ItemList.add(position, removedItem)
-                    rvAdapter!!.notifyDataSetChanged()
+                    itemList.add(position, removedItem)
+                    intervalTrainingMainRecycleViewAdapter!!.notifyDataSetChanged()
                     hideAddButtons()
                 }
                 .setTextColor(resources.getColor((R.color.textColor)))
                 .setBackgroundTint(resources.getColor(R.color.bgSecondary))
                 .setActionTextColor(resources.getColor(R.color.cyan))
                 .show()
-            if(ItemList.size == 0){
+            if(itemList.size == 0){
                 showAddButtons()
             }
         }
