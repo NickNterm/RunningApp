@@ -26,8 +26,7 @@
             android:layout_height="300dp"
             android:background="@drawable/time_progress_bar_background"
             android:max="12"
-            android:progress="7"
-
+            android:progress="12"
             android:progressDrawable="@drawable/timer_progress_bar"
             android:rotation="-90"
             android:rotationY="180" />
@@ -39,7 +38,7 @@
             android:layout_height="300dp"
             android:background="@drawable/time_progress_bar_background"
             android:max="12"
-            android:progress="7"
+            android:progress="12"
             android:progressDrawable="@drawable/timer_progress_bar_paused"
             android:rotation="-90"
             android:rotationY="180"

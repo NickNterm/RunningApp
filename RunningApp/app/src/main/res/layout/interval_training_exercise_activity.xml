@@ -31,7 +31,7 @@
             android:indeterminate="false"
             android:background="@drawable/time_progress_bar_background"
             android:max="10"
-            android:progress="4"
+            android:progress="6"
             android:progressDrawable="@drawable/timer_progress_bar"
             android:rotation="-90"
             android:rotationY="180" />

@@ -32,6 +32,9 @@ class Stopwatch : AppCompatActivity() {
         StopwatchRecycleView.adapter = RvAdapter
 
         StopwatchTimerText.setOnClickListener{
+            if(PauseButton.text.toString() == "Start"){
+                PauseButton.text = "Pause"
+            }
             if(timeToStart) {
                 startStopwatch(pausedTime)
             }else{
@@ -42,10 +45,11 @@ class Stopwatch : AppCompatActivity() {
         PauseButton.setOnClickListener {
             if(timeToStart) {
                 PauseButton.text = "Pause"
-                startStopwatch()
+                startStopwatch(pausedTime)
             }else{
                 PauseButton.text = "Resume"
                 pauseStopwatch()
+
             }
             timeToStart = !timeToStart
         }
@@ -96,6 +100,8 @@ class Stopwatch : AppCompatActivity() {
     }
 
     private fun startStopwatch(startFrom: Long = 0){
+        StopWatchProgressBar.visibility = View.VISIBLE
+        StopWatchPausedProgressBar.visibility = View.GONE
         LapButton.visibility = View.VISIBLE
         isPaused = false
         startTime = System.currentTimeMillis() - startFrom
@@ -122,6 +128,8 @@ class Stopwatch : AppCompatActivity() {
 
     private fun pauseStopwatch(){
         LapButton.visibility = View.GONE
+        StopWatchProgressBar.visibility = View.GONE
+        StopWatchPausedProgressBar.visibility = View.VISIBLE
         pausedTime = System.currentTimeMillis() - startTime
         isPaused = true
     }
